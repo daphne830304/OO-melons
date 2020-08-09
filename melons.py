@@ -46,7 +46,8 @@ class AbstractMelonOrder:
 
 class DomesticMelonOrder(AbstractMelonOrder):
     """A melon order within the USA."""
-
+    #the base class needs to pass in all the arguments from the parents' class init function
+    #however, base class can add more arguments specific to the class if only its defined inside the init function
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty,"domestic")
@@ -71,11 +72,11 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
 class GovernmentMelonOrder(AbstractMelonOrder):
 
-    def __init__(self, species, qty, pass_inspection=False):
+    def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty,"government")
 
-        self.pass_inspection = pass_inspection
+        self.pass_inspection = False #this is equivalent to def __init__(self, species, qty, pass_inspection=False)
      
     def mark_inspection(self,passed):
         self.pass_inspection = passed
