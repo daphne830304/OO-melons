@@ -1,23 +1,33 @@
 """Classes for melon orders."""
+import random
+import datetime
 
 class AbstractMelonOrder:
     """ an abstracct base class that other Melon Orders inherit from"""
 
-    def __init__(self, species, qty):
+    def __init__(self, species, qty, ordertype):
 
         self.species = species
         self.qty = qty
         self.shipped = False
         self.tax = 0
-        self.order_type = None
+        self.order_type = ordertype
      
     
     def mark_shipped(self):
         self.shipped = True
+
+    def get_base_price(self):
+
+        base_price = random.randint(5,9)
+        now = datetime.datetime.now()
+        if now.hour>8 and now.hour<11:
+            base_price += 4
+        return base_price
     
     def get_total(self):
         """Calculate price, including tax."""
-        base_price = 5
+        base_price = self.get_base_price
         if self.species == "Christmas melon":
             base_price = base_price*1.5
         
@@ -27,6 +37,7 @@ class AbstractMelonOrder:
             total += 3
 
         return total
+    
 
 
 class DomesticMelonOrder(AbstractMelonOrder):
@@ -34,21 +45,10 @@ class DomesticMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
-        super().__init__(species, qty)
-        # self.species = species
-        # self.qty = qty
-        # self.shipped = False
+        super().__init__(species, qty,"domestic")
+        
         self.order_type = "domestic"
         self.tax = 0.08
-
-    # def get_total(self):
-    #     """Calculate price, including tax."""
-    #     super().get_total()
-
-
-    # def mark_shipped(self):
-    #     """Record the fact than an order has been shipped."""
-    #     super().mark_shipped()
 
 
 class InternationalMelonOrder(AbstractMelonOrder):
@@ -56,16 +56,10 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
     def __init__(self, species, qty, country_code):
         """Initialize melon order attributes."""
-        super().__init__(species, qty)
+        super().__init__(species, qty,"international")
         self.country_code = country_code
-        self.order_type = "international"
+        # self.order_type = "international"
         self.tax = 0.17
-
-        
-
-    # def mark_shipped(self):
-    #     """Record the fact than an order has been shipped."""
-    #     super().mark_shipped()
 
     def get_country_code(self):
         """Return the country code."""
@@ -74,11 +68,11 @@ class InternationalMelonOrder(AbstractMelonOrder):
 
 class GovernmentMelonOrder(AbstractMelonOrder):
 
-    def __init__(self, species, qty, pass_inspection=False):#,mark_inspection):
+    def __init__(self, species, qty, pass_inspection=False):
         """Initialize melon order attributes."""
-        super().__init__(species, qty)
+        super().__init__(species, qty,"government")
 
         self.pass_inspection = pass_inspection
-        # self.mark_inspection = 
+     
     def mark_inspection(self,passed):
         self.pass_inspection = passed
