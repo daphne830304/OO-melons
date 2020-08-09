@@ -12,7 +12,7 @@ class AbstractMelonOrder:
         if qty>100:
             raise TooManyMelonsError
         self.shipped = False
-        self.tax = 0
+        self.tax = 0 #this line can be self.tax = tax if tax is passed as an argument in the init method
         self.order_type = ordertype
      
     
@@ -47,7 +47,7 @@ class AbstractMelonOrder:
 class DomesticMelonOrder(AbstractMelonOrder):
     """A melon order within the USA."""
     #the base class needs to pass in all the arguments from the parents' class init function
-    #however, base class can add more arguments specific to the class if only its defined inside the init function
+    #however, base class can add more arguments specific to the base class if only its defined inside the base class's init function
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty,"domestic")
