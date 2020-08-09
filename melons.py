@@ -51,6 +51,7 @@ class DomesticMelonOrder(AbstractMelonOrder):
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty,"domestic")
+        #alternative super().__init__(species, qty,"domestic",0.08) to do this, tax needed to be passed as an argument in the parent class
         # self.order_type = "domestic" this line can be replaced by passing "domestic" in the super().__init__method
         self.tax = 0.08 #this line can possibly be replaced by passing a number in the super().__init__method
 
