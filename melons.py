@@ -9,6 +9,8 @@ class AbstractMelonOrder:
 
         self.species = species
         self.qty = qty
+        if qty>100:
+            raise TooManyMelonsError
         self.shipped = False
         self.tax = 0
         self.order_type = ordertype
@@ -20,9 +22,11 @@ class AbstractMelonOrder:
     def get_base_price(self):
 
         base_price = random.randint(5,9)
+
         now = datetime.datetime.now()
         if now.hour>8 and now.hour<11:
             base_price += 4
+
         return base_price
     
     def get_total(self):
@@ -46,20 +50,19 @@ class DomesticMelonOrder(AbstractMelonOrder):
     def __init__(self, species, qty):
         """Initialize melon order attributes."""
         super().__init__(species, qty,"domestic")
-        
-        self.order_type = "domestic"
-        self.tax = 0.08
+        # self.order_type = "domestic" this line can be replaced by passing "domestic" in the super().__init__method
+        self.tax = 0.08 #this line can possibly be replaced by passing a number in the super().__init__method
 
 
 class InternationalMelonOrder(AbstractMelonOrder):
     """An international (non-US) melon order."""
 
-    def __init__(self, species, qty, country_code):
+    def __init__(self, species, qty, country_code): #can take in additional arguments not in parent class but will need to define it (eg. country_code)
         """Initialize melon order attributes."""
-        super().__init__(species, qty,"international")
+        super().__init__(species, qty,"international") #pass in the necessary arguments for parent class 
         self.country_code = country_code
-        # self.order_type = "international"
-        self.tax = 0.17
+        # self.order_type = "international" this line can be replaced by passing "domestic" in the super().__init__method
+        self.tax = 0.17 #this line can possibly be replaced by passing a number in the super().__init__method
 
     def get_country_code(self):
         """Return the country code."""
@@ -76,3 +79,8 @@ class GovernmentMelonOrder(AbstractMelonOrder):
      
     def mark_inspection(self,passed):
         self.pass_inspection = passed
+
+class TooManyMelonsError(ValueError):
+
+    def __init__(self):
+        super().__init__("Too many melons")
